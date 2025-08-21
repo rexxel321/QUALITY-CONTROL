@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - QC Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .dashboard-container { max-width: 600px; margin: 50px auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-container">
+            <h2 class="text-center mb-4">Upload Bukti QC</h2>
+            <a href="/logout" class="btn btn-secondary mb-3">Logout</a>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="description" class="form-label">Deskripsi</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="files" class="form-label">Upload Files (Multiple)</label>
+                    <input type="file" class="form-control" id="files" name="files" multiple required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                <div class="text-center mt-3">
+                    <p class="text-success">{{ success_message }}</p> <!-- Placeholder untuk pesan sukses -->
+                    <p class="text-danger">{{ error_message }}</p> <!-- Placeholder untuk error -->
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
