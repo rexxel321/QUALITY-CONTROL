@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Security Admin - Submissions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">QC Security Admin</h1>
+        <div class="flex items-center space-x-4">
+            <input type="text" placeholder="Search" class="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <div class="relative">
+                <span class="cursor-pointer hover:text-blue-200">Admin</span>
+                <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg hidden group-hover:block">
+                    <a href="#" class="block px-4 py-2 hover:bg-blue-100">Profile</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-blue-100">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-md p-4 h-screen">
+            <ul class="space-y-2">
+                <li><a href="dashboard.html" class="block p-2 hover:bg-blue-100 rounded">Dashboard</a></li>
+                <li><a href="submissions.html" class="block p-2 bg-blue-100 rounded font-semibold text-blue-600">Submissions</a></li>
+                <li><a href="reports.html" class="block p-2 hover:bg-blue-100 rounded">Reports</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <h2 class="text-3xl font-semibold mb-6">Submissions</h2>
+
+            <!-- Upload New Submission -->
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                <h3 class="text-xl font-semibold mb-4">Upload New Submission</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium">Your Name</label>
+                        <input type="text" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Application Name</label>
+                        <input type="text" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Upload File (PDF, ZIP, DOC)</label>
+                        <input type="file" accept=".pdf,.zip,.doc,.docx" class="w-full p-2 border rounded-lg">
+                        <p class="text-sm text-gray-500 mt-1">File must be PDF, ZIP, or DOC (max 5MB).</p>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+                </div>
+            </div>
+
+            <!-- All Submissions Table -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">All Submissions</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2 text-left">ID</th>
+                            <th class="p-2 text-left">User</th>
+                            <th class="p-2 text-left">Application</th>
+                            <th class="p-2 text-left">File Uploaded</th>
+                            <th class="p-2 text-left">Status</th>
+                            <th class="p-2 text-left">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">001</td>
+                            <td class="p-2">UserA</td>
+                            <td class="p-2">AppX</td>
+                            <td class="p-2">app_security_report.pdf</td>
+                            <td class="p-2">Pending</td>
+                            <td class="p-2">
+                                <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Approve</button>
+                                <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 ml-2">Reject</button>
+                            </td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">002</td>
+                            <td class="p-2">UserB</td>
+                            <td class="p-2">AppY</td>
+                            <td class="p-2">code_review.zip</td>
+                            <td class="p-2">Pending</td>
+                            <td class="p-2">
+                                <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Approve</button>
+                                <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 ml-2">Reject</button>
+                            </td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">003</td>
+                            <td class="p-2">UserC</td>
+                            <td class="p-2">AppZ</td>
+                            <td class="p-2">security_check.doc</td>
+                            <td class="p-2">Approved</td>
+                            <td class="p-2">
+                                <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Approve</button>
+                                <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 ml-2">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-gray-600">
+        © 2025 QC Security. All rights reserved. Version 1.0
+    </footer>
+</body>
+</html>
