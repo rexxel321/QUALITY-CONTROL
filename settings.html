@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - QC Security</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS for better look -->
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; }
+        .sidebar { background-color: #343a40; height: 100vh; position: fixed; width: 250px; }
+        .sidebar a { color: #c2c7d0; padding: 15px; display: block; text-decoration: none; }
+        .sidebar a:hover { background-color: #495057; color: white; }
+        .sidebar .active { background-color: #007bff; color: white; }
+        .content { margin-left: 250px; padding: 20px; }
+        .navbar { background-color: #007bff; }
+        .card { border: none; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        footer { margin-left: 250px; background-color: #343a40; color: white; text-align: center; padding: 10px; }
+        .settings-section { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .invalid-feedback { display: none; }
+        .is-invalid ~ .invalid-feedback { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">QC Security Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-search"></i> Search</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="submissions.html"><i class="fas fa-file-upload"></i> Submissions</a>
+        <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+        <a href="users.html"><i class="fas fa-users"></i> Users</a>
+        <a href="#" class="active"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h2 class="mb-4">Settings</h2>
+
+        <!-- General Settings -->
+        <div class="settings-section mb-5">
+            <h5>General Settings</h5>
+            <form id="generalSettingsForm" onsubmit="handleGeneralSettings(event)">
+                <div class="mb-3">
+                    <label for="appName" class="form-label">Application Name</label>
+                    <input type="text" class="form-control" id="appName" value="QC Security" required>
+                </div>
+                <div class="mb-3">
+                    <label for="appLogo" class="form-label">Application Logo (PNG, JPG, max 2MB)</label>
+                    <input type="file" class="form-control" id="appLogo" accept="image/png,image/jpeg">
+                    <div class="invalid-feedback">
+                        File must be PNG or JPG (max 2MB).
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save General Settings</button>
+            </form>
+        </div>
+
+        <!-- File Upload Settings -->
+        <div class="settings-section mb-5">
+            <h5>File Upload Settings</h5>
+            <form id="fileSettingsForm" onsubmit="handleFileSettings(event)">
+                <div class="mb-3">
+                    <label class="form-label">Allowed File Types</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="allowPdf" checked>
+                        <label class="form-check-label" for="allowPdf">PDF</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="allowZip" checked>
+                        <label class="form-check-label" for="allowZip">ZIP</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="allowDoc" checked>
+                        <label class="form-check-label" for="allowDoc">DOC/DOCX</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="maxFileSize" class="form-label">Maximum File Size (MB)</label>
+                    <input type="number" class="form-control" id="maxFileSize" value="5" min="1" max="50" required>
+                    <div class="invalid-feedback">
+                        File size must be between 1 and 50 MB.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save File Settings</button>
+            </form>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="settings-section">
+            <h5>Notification Settings</h5>
+            <form id="notificationSettingsForm" onsubmit="handleNotificationSettings(event)">
+                <div class="mb-3">
+                    <label for="notificationEmail" class="form-label">Notification Email</label>
+                    <input type="email" class="form-control" id="notificationEmail" value="admin@qcsecurity.com">
+                    <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Notification Status</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="notificationStatus" id="notificationOn" value="on" checked>
+                        <label class="form-check-label" for="notificationOn">On</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="notificationStatus" id="notificationOff" value="off">
+                        <label class="form-check-label" for="notificationOff">Off</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 QC Security. All rights reserved. Version 1.0</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Custom JS for form validation and actions -->
+    <script>
+        function handleGeneralSettings(event) {
+            event.preventDefault();
+            const logoInput = document.getElementById('appLogo');
+            const file = logoInput.files[0];
+            const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+            const allowedTypes = ['image/png', 'image/jpeg'];
+
+            if (file && file.size > maxSize) {
+                logoInput.classList.add('is-invalid');
+                return;
+            }
+            if (file && !allowedTypes.includes(file.type)) {
+                logoInput.classList.add('is-invalid');
+                return;
+            }
+
+            logoInput.classList.remove('is-invalid');
+            alert('General settings saved successfully!');
+            document.getElementById('generalSettingsForm').reset();
+            // Nanti ganti dengan POST request: fetch('/api/settings/general', { method: 'POST', body: formData });
+        }
+
+        function handleFileSettings(event) {
+            event.preventDefault();
+            const maxFileSize = document.getElementById('maxFileSize').value;
+
+            if (maxFileSize < 1 || maxFileSize > 50) {
+                document.getElementById('maxFileSize').classList.add('is-invalid');
+                return;
+            }
+
+            document.getElementById('maxFileSize').classList.remove('is-invalid');
+            alert('File upload settings saved successfully!');
+            // Nanti ganti dengan POST request: fetch('/api/settings/file', { method: 'POST', body: JSON.stringify({ allowPdf, allowZip, allowDoc, maxFileSize }) });
+        }
+
+        function handleNotificationSettings(event) {
+            event.preventDefault();
+            const email = document.getElementById('notificationEmail').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                document.getElementById('notificationEmail').classList.add('is-invalid');
+                return;
+            }
+
+            document.getElementById('notificationEmail').classList.remove('is-invalid');
+            alert('Notification settings saved successfully!');
+            document.getElementById('notificationSettingsForm').reset();
+            // Nanti ganti dengan POST request: fetch('/api/settings/notification', { method: 'POST', body: JSON.stringify({ email, status }) });
+        }
+    </script>
+</body>
+</html>

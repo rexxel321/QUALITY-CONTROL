@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QC Security Dashboard</title>
+    <title>Dashboard - QC Security</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Font Awesome for Icons -->
@@ -28,7 +28,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">QC Security Admin</a>
+            <a class="navbar-brand" href="{% url 'dashboard' %}">QC Security Admin</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -39,11 +39,11 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user"></i> Admin
+                            <i class="fas fa-user"></i> {{ user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -53,11 +53,11 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="submissions.html"><i class="fas fa-file-upload"></i> Submissions</a>
-        <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
-        <a href="users.html"><i class="fas fa-users"></i> Users</a>
-        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        <a href="{% url 'dashboard' %}" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="{% url 'submissions' %}"><i class="fas fa-file-upload"></i> Submissions</a>
+        <a href="{% url 'reports' %}"><i class="fas fa-chart-bar"></i> Reports</a>
+        <a href="{% url 'users' %}"><i class="fas fa-users"></i> Users</a>
+        <a href="{% url 'settings' %}"><i class="fas fa-cog"></i> Settings</a>
     </div>
 
     <!-- Main Content -->
@@ -70,7 +70,7 @@
                 <div class="card text-white bg-primary mb-3">
                     <div class="card-body">
                         <h5 class="card-title">New Submissions</h5>
-                        <p class="card-text display-4">15</p>
+                        <p class="card-text display-4">{{ new_submissions }}</p>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 <div class="card text-white bg-success mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Approved</h5>
-                        <p class="card-text display-4">42</p>
+                        <p class="card-text display-4">{{ approved }}</p>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                 <div class="card text-white bg-danger mb-3">
                     <div class="card-body">
                         <h5 class="card-title">Rejected</h5>
-                        <p class="card-text display-4">8</p>
+                        <p class="card-text display-4">{{ rejected }}</p>
                     </div>
                 </div>
             </div>
@@ -109,27 +109,33 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for submission in recent_submissions %}
                         <tr>
-                            <td>001</td>
-                            <td>UserA</td>
-                            <td>app_security_report.pdf <a href="#"><i class="fas fa-paperclip"></i></a></td>
-                            <td><span class="badge bg-warning">Pending</span></td>
+                            <td>{{ submission.id }}</td>
+                            <td>{{ submission.user.username }}</td>
+                            <td><a href="{{ submission.file_path.url }}">{{ submission.file_path.name }}</a> <i class="fas fa-paperclip"></i></td>
+                            <td><span class="badge bg-{% if submission.status == 'Pending' %}warning{% elif submission.status == 'Approved' %}success{% else %}danger{% endif %}">{{ submission.status }}</span></td>
                             <td>
-                                <button class="btn btn-sm btn-approve" onclick="alert('Approved!')">Approve</button>
-                                <button class="btn btn-sm btn-reject" onclick="alert('Rejected!')">Reject</button>
+                                {% if submission.status == 'Pending' %}
+                                <form action="{% url 'submission_action' submission.id 'approve' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-approve">Approve</button>
+                                </form>
+                                <form action="{% url 'submission_action' submission.id 'reject' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-reject">Reject</button>
+                                </form>
+                                {% else %}
+                                <button class="btn btn-sm btn-approve" disabled>Approve</button>
+                                <button class="btn btn-sm btn-reject" disabled>Reject</button>
+                                {% endif %}
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>002</td>
-                            <td>UserB</td>
-                            <td>code_review.zip <a href="#"><i class="fas fa-paperclip"></i></a></td>
-                            <td><span class="badge bg-warning">Pending</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-approve" onclick="alert('Approved!')">Approve</button>
-                                <button class="btn btn-sm btn-reject" onclick="alert('Rejected!')">Reject</button>
-                            </td>
+                            <td colspan="5">No recent submissions found.</td>
                         </tr>
-                        <!-- Tambahkan baris lain sesuai kebutuhan -->
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
