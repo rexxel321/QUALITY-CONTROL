@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Security Admin - Reports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="bg-blue-100 p-4 mb-4 rounded-lg text-blue-800">
+                {% for category, message in messages %}
+                    <li class="{% if category == 'error' %}text-red-800{% else %}text-blue-800{% endif %}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">QC Security Admin</h1>
+        <div class="flex items-center space-x-4">
+            <input type="text" placeholder="Search" class="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <div class="relative group">
+                <span class="cursor-pointer hover:text-blue-200">{{ name }}</span>
+                <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg hidden group-hover:block">
+                    <a href="{{ url_for('profile') }}" class="block px-4 py-2 hover:bg-blue-100">Profile</a>
+                    <a href="{{ url_for('logout') }}" class="block px-4 py-2 hover:bg-blue-100">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-md p-4 h-screen">
+            <ul class="space-y-2">
+                <li><a href="{{ url_for('admin_dashboard') }}" class="block p-2 hover:bg-blue-100 rounded">Dashboard</a></li>
+                <li><a href="{{ url_for('submissions') }}" class="block p-2 hover:bg-blue-100 rounded">Submissions</a></li>
+                <li><a href="{{ url_for('reports') }}" class="block p-2 bg-blue-100 rounded font-semibold text-blue-600">Reports</a></li>
+                {% if session['role'] == 'admin' %}
+                    <li><a href="{{ url_for('users_page') }}" class="block p-2 hover:bg-blue-100 rounded">Users</a></li>
+                
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <h2 class="text-3xl font-semibold mb-6">Reports</h2>
+
+            <!-- Filter Reports -->
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                <h3 class="text-xl font-semibold mb-4">Filter Reports</h3>
+                <form method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium">Status</label>
+                        <select name="status" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="All">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Start Date</label>
+                        <input type="date" name="start_date" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">End Date</label>
+                        <input type="date" name="end_date" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div class="flex items-end">
+                        <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Apply Filter</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Submission Status Overview -->
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                <h3 class="text-xl font-semibold mb-4">Submission Status Overview</h3>
+                <div class="h-48 bg-gray-100 rounded-lg flex items-center justify-center">Chart Placeholder</div>
+                <!-- Tambah chart nanti jika diminta -->
+            </div>
+
+            <!-- Submission Reports Table -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">Submission Reports</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2 text-left">ID</th>
+                            <th class="p-2 text-left">User</th>
+                            <th class="p-2 text-left">Application</th>
+                            <th class="p-2 text-left">File Uploaded</th>
+                            <th class="p-2 text-left">Status</th>
+                            <th class="p-2 text-left">Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sub in submissions %}
+                            <tr class="border-b">
+                                <td class="p-2">{{ sub.id }}</td>
+                                <td class="p-2">{{ sub.user_name }}</td>
+                                <td class="p-2">{{ sub.app_name }}</td>
+                                <td class="p-2">{{ sub.file_path | basename }}</td>
+                                <td class="p-2">{{ sub.status }}</td>
+                                <td class="p-2">{{ sub.date_submitted }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-gray-600">
+        © 2025 QC Security. All rights reserved. Version 1.0
+    </footer>
+</body>
+</html>

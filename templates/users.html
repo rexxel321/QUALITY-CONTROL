@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Security - Users</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="bg-blue-100 p-4 mb-4 rounded-lg text-blue-800">
+                {% for category, message in messages %}
+                    <li class="{% if category == 'error' %}text-red-800{% else %}text-blue-800{% endif %}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">QC Security</h1>
+        <div class="flex items-center space-x-4">
+            <input type="text" placeholder="Search" class="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <div class="relative group">
+                <span class="cursor-pointer hover:text-blue-200">{{ name }}</span>
+                <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg hidden group-hover:block">
+                    <a href="{{ url_for('profile') }}" class="block px-4 py-2 hover:bg-blue-100">Profile</a>
+                    <a href="{{ url_for('logout') }}" class="block px-4 py-2 hover:bg-blue-100">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-md p-4 h-screen">
+            <ul class="space-y-2">
+                <li><a href="{{ url_for('admin_dashboard') }}" class="block p-2 hover:bg-blue-100 rounded">Dashboard</a></li>
+                <li><a href="{{ url_for('submissions') }}" class="block p-2 hover:bg-blue-100 rounded">Submissions</a></li>
+                <li><a href="{{ url_for('profile') }}" class="block p-2 hover:bg-blue-100 rounded">Profile</a></li>
+                <li><a href="{{ url_for('users_page') }}" class="block p-2 bg-blue-100 rounded font-semibold text-blue-600">Users</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <h2 class="text-3xl font-semibold mb-6">Users</h2>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">List of Users (Total: {{ users | length }})</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2 text-left">ID</th>
+                            <th class="p-2 text-left">Name</th>
+                            <th class="p-2 text-left">Email</th>
+                            <th class="p-2 text-left">Role</th>
+                            <th class="p-2 text-left">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr class="border-b">
+                                <td class="p-2">{{ user.id }}</td>
+                                <td class="p-2">{{ user.name }}</td>
+                                <td class="p-2">{{ user.email }}</td>
+                                <td class="p-2">{{ user.role }}</td>
+                                <td class="p-2">
+                                    <a href="{{ url_for('action_user', user_id=user.id, action='edit') }}" class="text-blue-500 hover:underline">Edit</a>
+                                    <a href="{{ url_for('action_user', user_id=user.id, action='delete') }}" class="text-red-500 hover:underline ml-2">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-gray-600">
+        © 2025 QC Security. All rights reserved. Version 1.0
+    </footer>
+</body>
+</html>

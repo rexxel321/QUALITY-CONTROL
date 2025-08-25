@@ -1,0 +1,60 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Security - Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">QC Security</h1>
+        <div class="flex items-center space-x-4">
+            <a href="{{ url_for('login') }}" class="hover:text-blue-200">Login</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-semibold mb-6 text-center">Register</h2>
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mb-4">
+                        {% for category, message in messages %}
+                            <p class="text-sm text-{{ 'green-500' if category == 'success' else 'red-500' }}">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <!-- Form -->
+            <form method="POST" action="{{ url_for('register') }}">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="name">Name</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700" for="password">Password</label>
+                    <input type="password" id="password" name="password" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Register</button>
+            </form>
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Already have an account? <a href="{{ url_for('login') }}" class="text-blue-500 hover:underline">Login</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-gray-600">
+        © 2025 QC Security. All rights reserved. Version 1.0
+    </footer>
+</body>
+</html>
