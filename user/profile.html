@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Security - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">QC Security</h1>
+        <div class="flex items-center space-x-4">
+            <input type="text" placeholder="Search" class="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <div class="relative group">
+                <span class="cursor-pointer hover:text-blue-200">User</span>
+                <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg hidden group-hover:block">
+                    <a href="profile.html" class="block px-4 py-2 hover:bg-blue-100">Profile</a>
+                    <a href="../auth/login.html" class="block px-4 py-2 hover:bg-blue-100">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-md p-4 h-screen">
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block p-2 hover:bg-blue-100 rounded">Dashboard</a></li>
+                <li><a href="submissions.html" class="block p-2 hover:bg-blue-100 rounded">My Submissions</a></li>
+                <li><a href="profile.html" class="block p-2 bg-blue-100 rounded font-semibold text-blue-600">Profile</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <h2 class="text-3xl font-semibold mb-6">Profile</h2>
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                <h3 class="text-xl font-semibold mb-4">Edit Profile</h3>
+                <form action="update_profile.php" method="POST">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="name">Name</label>
+                        <input type="text" id="name" name="name" value="UserA" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+                        <input type="email" id="email" name="email" value="usera@example.com" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="role">Role</label>
+                        <input type="text" id="role" name="role" value="User" class="w-full p-2 border rounded-lg bg-gray-100" readonly>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Changes</button>
+                </form>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">Change Password</h3>
+                <form action="update_profile.php" method="POST">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="current_password">Current Password</label>
+                        <input type="password" id="current_password" name="current_password" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="new_password">New Password</label>
+                        <input type="password" id="new_password" name="new_password" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                        <p class="text-sm text-gray-500 mt-1">Password must be at least 6 characters.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="confirm_password">Confirm New Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Change Password</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-gray-600">
+        © 2025 QC Security. All rights reserved. Version 1.0
+    </footer>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Security - My Submissions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">QC Security</h1>
+        <div class="flex items-center space-x-4">
+            <input type="text" placeholder="Search" class="p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <div class="relative group">
+                <span class="cursor-pointer hover:text-blue-200">User</span>
+                <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg hidden group-hover:block">
+                    <a href="profile.html" class="block px-4 py-2 hover:bg-blue-100">Profile</a>
+                    <a href="../auth/login.html" class="block px-4 py-2 hover:bg-blue-100">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <nav class="w-64 bg-white shadow-md p-4 h-screen">
+            <ul class="space-y-2">
+                <li><a href="index.html" class="block p-2 hover:bg-blue-100 rounded">Dashboard</a></li>
+                <li><a href="submissions.html" class="block p-2 bg-blue-100 rounded font-semibold text-blue-600">My Submissions</a></li>
+                <li><a href="profile.html" class="block p-2 hover:bg-blue-100 rounded">Profile</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <h2 class="text-3xl font-semibold mb-6">My Submissions</h2>
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                <h3 class="text-xl font-semibold mb-4">Upload New Submission</h3>
+                <form action="submit.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="app_name">Application Name</label>
+                        <input type="text" id="app_name" name="app_name" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700" for="file">Upload File (PDF, ZIP, DOC)</label>
+                        <input type="file" id="file" name="file" accept=".pdf,.zip,.doc,.docx" class="w-full p-2 border rounded-lg" required>
+                        <p class="text-sm text-gray-500 mt-1">File must be PDF, ZIP, or DOC (max 5MB).</p>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+                </form>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-xl font-semibold mb-4">My Submissions</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2 text-left">ID</th>
+                            <th class="p-2 text-left">Application</th>
+                            <th class="p-2 text-left">File Uploaded</th>
+                            <th class="p-2 text-left">Status</th>
+                            <th class="p-2 text-left">Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">001</td>
+                            <td class="p-2">AppX</td>
+                            <td class="p-2">app_security_report.pdf</td>
+                            <td class="p-2">Pending</td>
+                            <td class="p-2">2025-08-20</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">002</td>
+                            <td class="p-2">AppY</td>
+                            <td class="p-2">code_review.zip</td>
+                            <td class="p-2">Approved</td>
+                            <td class="p-2">2025-08-19</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">003</td>
+                            <td class="p-2">AppZ</td>
+                            <td class="p-2">security_check.doc</td>
+                            <td class="p-2">Rejected</td>
+                            <td class="p-2">2025-08-18</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-gray-600">
+        © 2025 QC Security. All rights reserved. Version 1.0
+    </footer>
+</body>
+</html>
